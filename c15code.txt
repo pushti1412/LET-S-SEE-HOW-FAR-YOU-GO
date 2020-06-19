@@ -1,0 +1,70 @@
+
+var velocity = 2;
+
+var ballcount = 0;
+var ballGroup = createGroup();
+var count = 0;
+
+var invisibleground = createSprite(0,370,800,5);
+invisibleground.visible = false;
+
+function draw()
+{
+    background("white");
+    
+   if(mouseDown("leftButton"))
+   {
+
+      for (var i = 0; i < ballcount; i++)
+      {
+        if(mousePressedOver(ballGroup.get(i)))
+        {
+          ballGroup.get(i).destroy();
+          count = count + 1;
+          ballcount = ballcount - 1;
+        }
+      }
+   }
+   
+  
+   
+  if(World.frameCount % 40 == 0)
+  {
+
+    if(count > 0 && (count % 10 == 0)) 
+    {
+      velocity = velocity + 1;
+    }  
+  
+    var ball_1 = createSprite(randomNumber(10,360), randomNumber(0,10),30,30);
+    ball_1.setAnimation("ball2.jpg_1");
+    ball_1.scale = 0.25;
+    ball_1.velocityY = velocity;
+    ballGroup.add(ball_1);
+    ballcount = ballcount + 1;
+ 
+  }
+
+  
+  for (var i = 0; i < ballcount; i++)
+  {
+    if(ballGroup.get(i).y > 380)
+    {
+      ballGroup.get(i).destroy();
+     if(count > 0)
+      {
+        count = count - 1;
+      }
+      
+      ballcount = ballcount - 1;
+    }
+  }
+
+  fill("red");
+  textFont("ariel");
+  textSize(20);
+  text("SCORE:" + count,290,50);
+  
+
+  drawSprites();  
+}
